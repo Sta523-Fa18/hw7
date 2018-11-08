@@ -3,7 +3,8 @@ allowed_files = c("hw7.Rmd",
                   "wercker.yml",
                   "hw7.Rproj",
                   "hw7_whitelist.R",
-                  "precincts.geojson")
+                  "precincts.geojson",
+                  "nyc_parking_ticket.jpg")
 
 files = dir()
 disallowed_files = files[!(files %in% allowed_files)]

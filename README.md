@@ -4,7 +4,7 @@ Homework 7 - Parking Wars: Manhattan
 ---
 due Tuesday, November 27th by 11:59 pm
 
-![ticket](NYC_Parking_Ticket.jpg/raw=true)
+![ticket](nyc_parking_ticket.jpg/raw=true)
 
 ## Background
 
