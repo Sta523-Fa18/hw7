@@ -1,5 +1,3 @@
-[![wercker status](https://app.wercker.com/status/de8fdba119fd6083a4bdea696ecc3fc6/s/master "wercker status")](https://app.wercker.com/project/byKey/de8fdba119fd6083a4bdea696ecc3fc6)
-
 Homework 7 - Parking Wars: Manhattan
 ---
 due Tuesday, November 27th by 11:59 pm
