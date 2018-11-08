@@ -48,7 +48,7 @@ As mentioned before, the data is complex and messy so keep in mind that there is
 
 To make things more interesting I will be offering extra credit to the team(s) that are best able to recreate the precinct map as judged by the smallest total area of discrepancy between your prediction and the true map. In order to win the prize you must abide by the rules as detailed below. I will maintain a leader board so that you will be able to judge how well you are doing relative to the other teams in the class.
 
-For this task you are expected to produce a GeoJSON file called `precinct.geojson`, for details on formatting see the [example repo](https://github.com/Sta323-Sp18/hw6). Your write up should include a discussion of your approaches to generating the boundaries and at least a simple visualization of your boundaries on top of the Manhattan borough boundary.
+For this task you are expected to produce a GeoJSON file called `precinct.geojson`, for details on formatting see the [example repo](https://github.com/Sta623-Fa18/hw7). Your write up should include a discussion of your approaches to generating the boundaries and at least a simple visualization of your boundaries on top of the Manhattan borough boundary.
 
 
 
