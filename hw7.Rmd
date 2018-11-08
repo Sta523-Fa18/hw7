@@ -1,0 +1,50 @@
+---
+title: "Sta 523 - Homework 7"
+author: [Your names here]
+output: html_document
+---
+
+
+### Setup
+
+```{r setup, message=FALSE}
+library(sf)
+library(dplyr)
+library(ggplot2)
+```
+
+## Task 1 - Clean and Merge Data
+
+### Parking Violation Data
+
+```{r}
+```
+
+### Geocoding Data
+
+```{r warning=FALSE}
+```
+
+### Clean data
+
+```{r}
+```
+
+
+### Merge data
+
+```{r}
+```
+
+
+## Task 2 - Modeling
+
+### Setup
+
+```{r}
+```
+
+### Modeling
+
+```{r}
+```
