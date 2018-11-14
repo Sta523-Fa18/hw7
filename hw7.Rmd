@@ -24,6 +24,8 @@ manh = readRDS("/data/nyc_parking/nyc_parking_2014.rds") %>%
     precinct = violation_precinct,
     address = paste(number, street)
   )
+
+manh
 ```
 
 ### Geocoding Data
@@ -38,6 +40,8 @@ pluto = data.frame(
   st_coordinates(pluto)
 ) %>% 
   as_data_frame
+
+pluto
 ```
 
 ### Clean data
@@ -59,6 +63,8 @@ pluto = pluto %>%
 ```{r}
 d = inner_join(manh, pluto, by="address")
 
+str(d)
+
 d %>%
   mutate(
     precinct = stringr::str_pad(precinct, 2, pad='0')
@@ -68,20 +74,152 @@ ggplot(aes(x=X, y=Y, color = precinct)) +
 ```
 
 
-### Merge data
-
-```{r}
-```
-
-
 ## Task 2 - Modeling
 
 ### Setup
 
 ```{r}
+manh_shp = st_read("/data/nyc_parking/nybb/") %>%
+  filter(BoroName == "Manhattan")
+
+manh_bb = st_bbox(manh_shp)
+
+x_pts = seq(manh_bb[1], manh_bb[3], length.out = 100)
+y_pts = seq(manh_bb[2], manh_bb[4], length.out = 250)
+
+manh_grid = expand.grid(x = x_pts, y = y_pts) %>% as.matrix()
+
+manh_grid_sf = st_multipoint(manh_grid) %>% 
+  st_sfc() %>% 
+  st_sf() %>%
+  st_set_crs(st_crs(manh_shp)) %>%
+  st_intersection(manh_shp)
+ 
+manh_grid_xy = st_coordinates(manh_grid_sf) %>% as.data.frame()
+
+st_cast(manh_grid_sf, "POINT")
+
+plot(st_geometry(manh_shp))
+plot(st_geometry(manh_grid_sf), add=TRUE, pch=16, cex=0.1)
 ```
 
 ### Modeling
 
+#### Logistic Regression - 1st Precinct
+
 ```{r}
+d_log = d %>% mutate(
+  prec = as.integer(precinct == 1)
+)
+
+m = glm(prec ~ X + Y + X:Y, data=d_log, family=binomial)  
+p = manh_grid_xy %>% 
+  mutate(
+    pred = predict(m, newdata = manh_grid_xy, type = "response")
+  )
+
+
+ggplot(d_log, aes(x=X,y=Y,color=prec)) + geom_point()
+ggplot(p, aes(x=X,y=Y,color=pred)) + geom_point()
+```
+
+#### Logistic Regression - 1st Precinct - Stupid Polynomials
+
+```{r}
+d_log = d %>% mutate(
+  prec = as.integer(precinct == 1)
+)
+
+m = glm(prec ~ poly(X,2)*poly(Y,2), data=d_log, family=binomial)  
+p = manh_grid_xy %>% 
+  mutate(
+    pred = predict(m, newdata = manh_grid_xy, type = "response")
+  )
+
+ggplot(d_log, aes(x=X,y=Y,color=prec)) + geom_point()
+ggplot(p, aes(x=X,y=Y,color=pred)) + geom_point()
+```
+
+#### Logistic Regression - All Precincts - Stupid Polynomials
+
+```{r}
+p = manh_grid_xy
+
+for(prec in sort(unique(d$precinct))) {
+  print(prec)
+  d_log = d %>% mutate(
+    prec = as.integer(precinct == prec)
+  )
+  
+  m = glm(prec ~ poly(X,2)*poly(Y,2), data=d_log, family=binomial)  
+  
+  p[[paste0("prec_", prec)]] = predict(m, newdata = manh_grid_xy, type = "response")
+}
+
+p %>%
+  tidyr::gather(precinct, prob, prec_1:prec_34) %>%
+  ggplot(aes(x=X,y=Y,color=prob)) + 
+    geom_point() + 
+    facet_wrap(~precinct)
+
+
+p_soft_max = manh_grid_xy %>%
+  mutate(
+    prec = p %>% 
+      select(prec_1:prec_34) %>%
+      apply(1,which.max) %>%
+      {manh_precincts[.]} %>%
+      stringr::str_pad(2,pad="0")
+  )
+
+ggplot(p_soft_max, aes(x=X,y=Y,color=prec)) + geom_point()
+```
+
+#### xgboost
+
+```{r}
+library(xgboost)
+
+d_xg = d %>%
+  select(-address) %>%
+  mutate(
+    precinct = as.factor(precinct)
+  )
+
+precinct_map = d_xg$precinct %>% levels()
+
+y = as.integer(d_xg$precinct) - 1
+x = d_xg %>% select(X,Y) %>% as.matrix()
+
+m = xgboost(data=x, label=y, nthread=4, nrounds=30, objective="multi:softmax", num_class=length(precinct_map))
+
+p_index = predict(m, newdata= manh_grid_xy %>% select(-L1) %>% as.matrix())
+
+p = manh_grid_xy %>%
+  mutate(
+    prec = precinct_map[p_index + 1]
+  )
+
+ggplot(p, aes(x=X,y=Y,color=prec)) + geom_point()
+```
+
+
+### Prediction
+
+```{r}
+p_sf = manh_grid_sf %>%
+  st_cast("POINT") %>%
+  select() %>%
+  mutate(
+    prec = precinct_map[p_index + 1]
+  )
+
+poly_sf = p_sf %>%
+  st_buffer(dist = 2*(manh_bb[3] - manh_bb[1] )/100) %>%
+  group_by(prec) %>%
+  summarize()
+
+#ggplot(p_sf, aes(color=prec)) + geom_sf()
+
+ggplot(poly_sf, aes(fill=prec)) + geom_sf()
 ```
