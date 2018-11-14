@@ -1,0 +1,28 @@
+{
+"type": "FeatureCollection",
+"name": "precincts",
+"features": [
+{ "type": "Feature", "properties": { "precinct": 1 }, "geometry": { "type": "Point", "coordinates": [ 298981.270542837213725, 60306.319612571518519 ] } },
+{ "type": "Feature", "properties": { "precinct": 5 }, "geometry": { "type": "Point", "coordinates": [ 300241.136957930517383, 61047.218028770766978 ] } },
+{ "type": "Feature", "properties": { "precinct": 6 }, "geometry": { "type": "Point", "coordinates": [ 299798.858660996425897, 62962.473817962636531 ] } },
+{ "type": "Feature", "properties": { "precinct": 7 }, "geometry": { "type": "Point", "coordinates": [ 301356.496082568541169, 60938.923866774726775 ] } },
+{ "type": "Feature", "properties": { "precinct": 9 }, "geometry": { "type": "Point", "coordinates": [ 301403.488259275793098, 62141.246120859097573 ] } },
+{ "type": "Feature", "properties": { "precinct": 10 }, "geometry": { "type": "Point", "coordinates": [ 299857.433189885690808, 64836.577262275866815 ] } },
+{ "type": "Feature", "properties": { "precinct": 13 }, "geometry": { "type": "Point", "coordinates": [ 301314.416367918951437, 63448.776243128078931 ] } },
+{ "type": "Feature", "properties": { "precinct": 14 }, "geometry": { "type": "Point", "coordinates": [ 301086.175037981884088, 65002.77961986673472 ] } },
+{ "type": "Feature", "properties": { "precinct": 17 }, "geometry": { "type": "Point", "coordinates": [ 302438.41254703263985, 64919.020584520541888 ] } },
+{ "type": "Feature", "properties": { "precinct": 18 }, "geometry": { "type": "Point", "coordinates": [ 301266.205195145274047, 66253.53251676367654 ] } },
+{ "type": "Feature", "properties": { "precinct": 19 }, "geometry": { "type": "Point", "coordinates": [ 303670.654645254544448, 67308.172073843204998 ] } },
+{ "type": "Feature", "properties": { "precinct": 20 }, "geometry": { "type": "Point", "coordinates": [ 301545.02506600524066, 68040.717174171892111 ] } },
+{ "type": "Feature", "properties": { "precinct": 22 }, "geometry": { "type": "Point", "coordinates": [ 302907.346754971309565, 68383.639828457249678 ] } },
+{ "type": "Feature", "properties": { "precinct": 23 }, "geometry": { "type": "Point", "coordinates": [ 304681.144547773234081, 69352.546350274482393 ] } },
+{ "type": "Feature", "properties": { "precinct": 24 }, "geometry": { "type": "Point", "coordinates": [ 302525.587263972498477, 69842.391585696590482 ] } },
+{ "type": "Feature", "properties": { "precinct": 25 }, "geometry": { "type": "Point", "coordinates": [ 305873.313951598480344, 69959.253139266860671 ] } },
+{ "type": "Feature", "properties": { "precinct": 26 }, "geometry": { "type": "Point", "coordinates": [ 303467.640589108224958, 71660.899914250243455 ] } },
+{ "type": "Feature", "properties": { "precinct": 28 }, "geometry": { "type": "Point", "coordinates": [ 304131.695327531779185, 70843.901749168333481 ] } },
+{ "type": "Feature", "properties": { "precinct": 30 }, "geometry": { "type": "Point", "coordinates": [ 304255.031144102045801, 73226.572548757991171 ] } },
+{ "type": "Feature", "properties": { "precinct": 32 }, "geometry": { "type": "Point", "coordinates": [ 305005.120540378207806, 72470.40239587292308 ] } },
+{ "type": "Feature", "properties": { "precinct": 33 }, "geometry": { "type": "Point", "coordinates": [ 305021.784252133395057, 74892.898821149312425 ] } },
+{ "type": "Feature", "properties": { "precinct": 34 }, "geometry": { "type": "Point", "coordinates": [ 306147.534901510167401, 77225.414648212114116 ] } }
+]
+}
