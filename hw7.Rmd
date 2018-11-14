@@ -18,16 +18,53 @@ library(ggplot2)
 ### Parking Violation Data
 
 ```{r}
+manh = readRDS("/data/nyc_parking/nyc_parking_2014.rds") %>%
+  filter(violation_precinct <= 34) %>%
+  transmute(
+    precinct = violation_precinct,
+    address = paste(number, street)
+  )
 ```
 
 ### Geocoding Data
 
 ```{r warning=FALSE}
+pluto = st_read("/data/nyc_parking/pluto_manhattan/", quiet = TRUE, stringsAsFactors = FALSE) %>%
+  select(Address) %>%
+  st_centroid() 
+
+pluto = data.frame(
+  address = pluto$Address, 
+  st_coordinates(pluto)
+) %>% 
+  as_data_frame
 ```
 
 ### Clean data
 
 ```{r}
+manh_precincts = c(1,5,6,7,9,10,13,14,17,18,19,20,22,23,24,25,26,28,30,32,33,34)
+
+manh = manh %>% 
+  mutate(address = tolower(address)) %>%
+  filter(precinct %in% manh_precincts)
+
+pluto = pluto %>% 
+  mutate(address = tolower(address))
+```
+
+
+### Merge data
+
+```{r}
+d = inner_join(manh, pluto, by="address")
+
+d %>%
+  mutate(
+    precinct = stringr::str_pad(precinct, 2, pad='0')
+  ) %>%
+ggplot(aes(x=X, y=Y, color = precinct)) +
+  geom_point()
 ```
 
 
