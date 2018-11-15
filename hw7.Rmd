@@ -220,6 +220,9 @@ poly_sf = p_sf %>%
   summarize()
 
 ggplot(poly_sf, aes(fill=prec)) + geom_sf()
+
+
+mapview::mapview(poly_sf)
 ```
 
 ### Save results
