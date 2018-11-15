@@ -215,11 +215,20 @@ p_sf = manh_grid_sf %>%
   )
 
 poly_sf = p_sf %>%
-  st_buffer(dist = 2*(manh_bb[3] - manh_bb[1] )/100) %>%
+  st_buffer(dist = (manh_bb[3] - manh_bb[1] )/100) %>%
   group_by(prec) %>%
   summarize()
 
-#ggplot(p_sf, aes(color=prec)) + geom_sf()
-
 ggplot(poly_sf, aes(fill=prec)) + geom_sf()
+```
+
+### Save results
+
+```{r}
+final = poly_sf %>%
+  rename(precinct = prec) %>%
+  mutate(precinct = as.integer(precinct))
+
+
+st_write(final, "precincts.geojson", delete_dsn = TRUE)
 ```
